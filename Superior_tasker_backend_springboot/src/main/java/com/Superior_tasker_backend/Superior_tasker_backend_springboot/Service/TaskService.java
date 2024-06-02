@@ -19,7 +19,7 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    public Optional<TaskModel> getTaskbyId(String id) {
+    public Optional<TaskModel> getTaskById(String id) {
         return taskRepository.findById(id);
     }
 
