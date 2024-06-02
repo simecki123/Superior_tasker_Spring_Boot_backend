@@ -4,6 +4,7 @@ import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.Proj
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ProjectService {
@@ -20,6 +21,10 @@ public class ProjectService {
 
     public Optional<ProjectModel> getProjectByID(String id) {
         return projectRepository.findById(id);
+    }
+
+    public List<ProjectModel> findByUserId(String userId) {
+        return projectRepository.findByUserId(userId);
     }
 
 

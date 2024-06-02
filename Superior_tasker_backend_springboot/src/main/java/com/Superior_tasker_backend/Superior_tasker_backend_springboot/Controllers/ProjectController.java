@@ -5,6 +5,7 @@ import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.Proj
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,5 +27,10 @@ public class ProjectController {
     @GetMapping("/{id}")
     public Optional<ProjectModel> getProjectById(@PathVariable String id) {
         return projectService.getProjectByID(id);
+    }
+
+    @GetMapping("/findAll/{userID}")
+    public List<ProjectModel> findByUserId(@PathVariable String userId) {
+        return projectService.findByUserId(userId);
     }
 }

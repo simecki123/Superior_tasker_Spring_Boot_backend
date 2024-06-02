@@ -4,6 +4,7 @@ import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.Task
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class TaskService {
@@ -21,6 +22,10 @@ public class TaskService {
 
     public Optional<TaskModel> getTaskById(String id) {
         return taskRepository.findById(id);
+    }
+
+    public List<TaskModel> findByProjectId(String id) {
+        return taskRepository.findByProjectId(id);
     }
 
 }
