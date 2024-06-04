@@ -8,7 +8,7 @@ public class TaskModel {
 
     @Id
     private String id;
-    private String ProjectId;
+    private String projectId;
     private String name;
     private Boolean done;
 
@@ -21,11 +21,11 @@ public class TaskModel {
     }
 
     public String getProjectId() {
-        return ProjectId;
+        return projectId;
     }
 
     public void setProjectId(String projectId) {
-        ProjectId = projectId;
+        this.projectId = projectId;
     }
 
     public String getName() {

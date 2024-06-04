@@ -3,10 +3,12 @@ package com.Superior_tasker_backend.Superior_tasker_backend_springboot.Service;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.TaskModel;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TaskService {
 
     @Autowired
