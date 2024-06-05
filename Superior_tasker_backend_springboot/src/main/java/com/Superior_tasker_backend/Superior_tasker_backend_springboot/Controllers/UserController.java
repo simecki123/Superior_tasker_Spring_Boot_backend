@@ -37,22 +37,25 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-
+    // Method for deleting user
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
     }
 
-    @GetMapping("/{id}")
+    // Get by id
+    @GetMapping("/findById/{id}")
     public Optional<UserModel> getUserById(@PathVariable String id) {
         return userService.getUserByID(id);
     }
 
-    @GetMapping("/{email}")
+    // Get by email
+    @GetMapping("/findByEmail/{email}")
     public UserModel getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
 
+    // Method for login
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
         UserModel user = userService.getUserByEmail(loginRequest.getEmail());
@@ -70,5 +73,16 @@ public class UserController {
         loginResponse.setMessage("Login successful");
 
         return ResponseEntity.ok(loginResponse);
+    }
+
+    // Method for update
+    @PutMapping("/updateUser/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserModel updatedUser) {
+        UserModel updated = userService.updateUser(id, updatedUser);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
     }
 }
