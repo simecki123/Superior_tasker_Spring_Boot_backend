@@ -30,4 +30,21 @@ public class TaskService {
         return taskRepository.findByProjectId(id);
     }
 
+    public List<TaskModel> findByUserId(String id) { return  taskRepository.findByUserId(id); }
+
+
+    public TaskModel updateTask(String id, TaskModel updatedTask) {
+        Optional<TaskModel> existingTaskOptional = taskRepository.findById(id);
+
+        if(existingTaskOptional.isPresent() ) {
+            TaskModel existingTask = existingTaskOptional.get();
+            existingTask.setName(updatedTask.getName());
+            existingTask.setDone(updatedTask.getDone());
+
+            return taskRepository.save(existingTask);
+        } else {
+            return null; // or throw an exception
+        }
+    }
+
 }
