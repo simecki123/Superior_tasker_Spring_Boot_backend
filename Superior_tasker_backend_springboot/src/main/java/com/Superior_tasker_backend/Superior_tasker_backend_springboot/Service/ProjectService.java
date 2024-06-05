@@ -29,7 +29,20 @@ public class ProjectService {
         return projectRepository.findByUserId(userId);
     }
 
+    public ProjectModel updateProject(String id, ProjectModel updatedProject) {
+        Optional<ProjectModel> existingProjectOptional = projectRepository.findById(id);
+        if(existingProjectOptional.isPresent()) {
+            ProjectModel existingProject = existingProjectOptional.get();
+            existingProject.setTitle(updatedProject.getTitle());
+            existingProject.setDescription(updatedProject.getDescription());
+            existingProject.setCompletion(updatedProject.getCompletion());
+            existingProject.setDate(updatedProject.getDate());
 
+            return projectRepository.save(existingProject);
+        } else {
+            return null; // or throw an exception
+        }
+    }
 
 
 }
