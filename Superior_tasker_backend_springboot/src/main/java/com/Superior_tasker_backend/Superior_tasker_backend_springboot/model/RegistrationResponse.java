@@ -10,4 +10,20 @@ public class RegistrationResponse {
     }
 
     // Getters and setters
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
 }

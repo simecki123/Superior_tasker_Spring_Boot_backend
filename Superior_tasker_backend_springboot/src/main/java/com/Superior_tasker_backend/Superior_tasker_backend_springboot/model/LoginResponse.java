@@ -4,6 +4,11 @@ public class LoginResponse {
     private UserModel user;
     private String message;
 
+    public LoginResponse(String message, UserModel user) {
+        this.message = message;
+        this.user = user;
+    }
+
     public UserModel getUser() {
         return user;
     }

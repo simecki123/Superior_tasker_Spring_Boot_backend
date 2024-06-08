@@ -1,8 +1,15 @@
 package com.Superior_tasker_backend.Superior_tasker_backend_springboot.Service;
 
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.LoginRequest;
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.LoginResponse;
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.RegistrationResponse;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.UserModel;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +20,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Method for saving user
     public UserModel saveUser(UserModel user) {
@@ -56,6 +65,33 @@ public class UserService {
             return null; // or throw an exception
         }
     }
+
+
+    public LoginResponse loginUser(LoginRequest loginRequest) {
+        UserModel user = getUserByEmail(loginRequest.getEmail());
+
+        if (user == null || !passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            return new LoginResponse("Invalid email or password", null);
+        }
+
+        return new LoginResponse("Login successful", user);
+    }
+
+    // Method for registering a new user
+    public RegistrationResponse registerUser(UserModel user) {
+        UserModel existingUser = getUserByEmail(user.getEmail());
+        if (existingUser != null) {
+            return new RegistrationResponse("User with this email already exists.", null);
+        }
+
+        // Encrypt the user's password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        UserModel registeredUser = saveUser(user);
+
+        return new RegistrationResponse("User registered successfully.", registeredUser);
+    }
+
 
 
 }
