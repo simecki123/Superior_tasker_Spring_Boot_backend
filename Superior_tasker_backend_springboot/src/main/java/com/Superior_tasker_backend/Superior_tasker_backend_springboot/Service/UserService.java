@@ -67,15 +67,7 @@ public class UserService {
     }
 
 
-    public LoginResponse loginUser(LoginRequest loginRequest) {
-        UserModel user = getUserByEmail(loginRequest.getEmail());
 
-        if (user == null || !passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            return new LoginResponse("Invalid email or password", null);
-        }
-
-        return new LoginResponse("Login successful", user);
-    }
 
     // Method for registering a new user
     public RegistrationResponse registerUser(UserModel user) {
