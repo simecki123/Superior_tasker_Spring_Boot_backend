@@ -16,26 +16,31 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/saveProject")
     public ProjectModel saveProject(@RequestBody ProjectModel projectModel) {
         return projectService.saveProject(projectModel);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping("/deleteProject/{id}")
     public void deleteProject(@PathVariable String id) {
         projectService.deleteProject(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/getProjectById/{id}")
     public Optional<ProjectModel> getProjectById(@PathVariable String id) {
         return projectService.getProjectByID(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/findAllProjects/{userId}")
     public List<ProjectModel> findByUserId(@PathVariable String userId) {
         return projectService.findByUserId(userId);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping("/updateProject/{id}")
     public ResponseEntity<?> updateProject(@PathVariable String id, @RequestBody ProjectModel updatedProject) {
         ProjectModel updated = projectService.updateProject(id, updatedProject);

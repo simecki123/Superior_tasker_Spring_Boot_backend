@@ -31,6 +31,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     // Method for registering
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/api/register")
     public ResponseEntity<RegistrationResponse> registerUser(@RequestBody UserModel user) {
         RegistrationResponse response = userService.registerUser(user);
@@ -40,6 +41,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/api/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
         try {
@@ -56,31 +58,32 @@ public class UserController {
     }
 
     // Method for deleting user
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping("/user/delete/{id}")
     public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
     }
 
     // Get by id
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/user/findById/{id}")
     public Optional<UserModel> getUserById(@PathVariable String id) {
         return userService.getUserByID(id);
     }
 
     // Get by email
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/user/findByEmail/{email}")
     public UserModel getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
 
-    @GetMapping("/dashboard")
-    public String returnValidMessage() {
-        return "Successfully login";
-    }
+
 
 
 
     // Method for update
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping("/user/updateUser/{id}")
     public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserModel updatedUser) {
         UserModel updated = userService.updateUser(id, updatedUser);
