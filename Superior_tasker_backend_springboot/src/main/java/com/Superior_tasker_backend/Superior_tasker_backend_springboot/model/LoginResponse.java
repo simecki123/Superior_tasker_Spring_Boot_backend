@@ -9,6 +9,7 @@ public class LoginResponse {
     public LoginResponse(String message, UserModel user, String token) {
         this.message = message;
         this.user = user;
+        this.token = token;
     }
 
     public String getToken() {
@@ -34,4 +35,6 @@ public class LoginResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }

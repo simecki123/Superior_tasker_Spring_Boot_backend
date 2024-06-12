@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.AuthenticationException;
 
@@ -29,9 +30,11 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Method for registering
-    @CrossOrigin(origins = "http://localhost:5173")
+
     @PostMapping("/api/register")
     public ResponseEntity<RegistrationResponse> registerUser(@RequestBody UserModel user) {
         RegistrationResponse response = userService.registerUser(user);
@@ -41,38 +44,43 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/api/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-            );
-            UserModel user = userService.getUserByEmail(loginRequest.getEmail());
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = jwtUtil.generateToken(userDetails.getUsername());
-            return ResponseEntity.ok(new LoginResponse("Login successful",user, token));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse("Invalid email or password",null, null));
+        // Find user by email
+        UserModel user = userService.getUserByEmail(loginRequest.getEmail());
+
+        // Check if user exists and passwords match
+        if (user == null || !passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse("Invalid email or password", null, null));
         }
+
+        // Generate token
+        String token = jwtUtil.generateToken(user.getEmail());
+
+        // Return response with token and user details
+        LoginResponse response = new LoginResponse("Login successful", user, token);
+        return ResponseEntity.ok(response);
+
     }
 
+
+
     // Method for deleting user
-    @CrossOrigin(origins = "http://localhost:5173")
+
     @DeleteMapping("/user/delete/{id}")
     public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
     }
 
     // Get by id
-    @CrossOrigin(origins = "http://localhost:5173")
+
     @GetMapping("/user/findById/{id}")
     public Optional<UserModel> getUserById(@PathVariable String id) {
         return userService.getUserByID(id);
     }
 
     // Get by email
-    @CrossOrigin(origins = "http://localhost:5173")
+
     @GetMapping("/user/findByEmail/{email}")
     public UserModel getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
@@ -83,7 +91,7 @@ public class UserController {
 
 
     // Method for update
-    @CrossOrigin(origins = "http://localhost:5173")
+
     @PutMapping("/user/updateUser/{id}")
     public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserModel updatedUser) {
         UserModel updated = userService.updateUser(id, updatedUser);
