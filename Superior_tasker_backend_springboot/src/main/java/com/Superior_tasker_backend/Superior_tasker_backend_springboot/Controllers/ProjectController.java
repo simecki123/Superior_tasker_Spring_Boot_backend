@@ -1,6 +1,7 @@
 package com.Superior_tasker_backend.Superior_tasker_backend_springboot.Controllers;
 
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.Service.ProjectService;
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.ProjectListResponse;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.ProjectModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +33,9 @@ public class ProjectController {
         return projectService.getProjectByID(id);
     }
 
+
     @GetMapping("/findAllProjects/{userId}")
-    public List<ProjectModel> findByUserId(@PathVariable String userId) {
+    public ProjectListResponse findByUserId(@PathVariable String userId) {
         return projectService.findByUserId(userId);
     }
 
