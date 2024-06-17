@@ -36,7 +36,7 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/login", "/projects/deleteProject/{id}", "/tasks/delete/{projectId}", "/tasks/findAllTasksOfProject/{projectId}", "/projects/findAllProjects/{userId}", "/api/register").permitAll()
+                        .requestMatchers("/api/login","/tasks/updateTask/{id}", "/tasks/findAllTasksOfUser/{userId}", "/projects/saveProject","/projects/getProjectById/{id}", "/tasks/saveTask", "/user/updateUser/{id}", "/projects/deleteProject/{id}", "/tasks/delete/{projectId}", "/tasks/findAllTasksOfProject/{projectId}", "/projects/findAllProjects/{userId}", "/api/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

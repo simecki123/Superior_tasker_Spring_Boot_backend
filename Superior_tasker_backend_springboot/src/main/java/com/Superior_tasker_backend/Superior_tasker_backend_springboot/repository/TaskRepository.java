@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface TaskRepository extends MongoRepository<TaskModel, String> {
-    List<TaskModel> findByProjectId(String id);
-    List<TaskModel> findByUserId(String id);
+    List<TaskModel> findByProjectId(String projectId);
+    List<TaskModel> findByUserId(String userId);
 }

@@ -1,5 +1,6 @@
 package com.Superior_tasker_backend.Superior_tasker_backend_springboot.Service;
 
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.TaskListResponse;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.TaskModel;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,17 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public List<TaskModel> findByProjectId(String id) {
-        return taskRepository.findByProjectId(id);
+    public TaskListResponse findByProjectId(String id) {
+        TaskListResponse taskListResponse = new TaskListResponse();
+        taskListResponse.setTaskList(taskRepository.findByProjectId(id));
+        return taskListResponse;
     }
 
-    public List<TaskModel> findByUserId(String id) { return  taskRepository.findByUserId(id); }
+    public TaskListResponse findByUserId(String id) {
+        TaskListResponse taskListResponse = new TaskListResponse();
+        taskListResponse.setTaskList(taskRepository.findByUserId(id));
+        return taskListResponse;
+    }
 
 
     public TaskModel updateTask(String id, TaskModel updatedTask) {
