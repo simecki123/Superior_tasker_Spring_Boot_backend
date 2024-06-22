@@ -18,7 +18,7 @@ For this project, I chose a free MongoDB cloud database and managed the data usi
     "description": "Ovo je prvi korisnik",
     "image": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.novilist.hr%2Fta…"
 }
-
+```
 ### Example of a Project:
 ```json
 {
@@ -29,7 +29,7 @@ For this project, I chose a free MongoDB cloud database and managed the data usi
     "date": "05.06.2024",
     "completion": "0%"
 }
-
+```
 ### Example of a Task:
 ```json
 {
@@ -39,6 +39,7 @@ For this project, I chose a free MongoDB cloud database and managed the data usi
     "name": "Eat lunch",
     "done": false
 }
+```
 
 ## Code (Short Description)
 Each user can have multiple projects, and each project can have multiple tasks, but one task can only belong to one project and one user. Similarly, a project can only belong to one user.
