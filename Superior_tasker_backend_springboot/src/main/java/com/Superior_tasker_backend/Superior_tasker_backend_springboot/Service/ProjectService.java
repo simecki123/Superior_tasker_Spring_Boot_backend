@@ -10,23 +10,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// Service for fetching projects
 @Service
 public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    // Method for saving new project.
     public ProjectModel saveProject(ProjectModel project) {
         return projectRepository.save(project);
     }
 
+    // Method for deleting specific project.
     public void deleteProject(String id) {
         projectRepository.deleteById(id);
     }
 
+    // Method for getting specific project by its id.
     public Optional<ProjectModel> getProjectByID(String id) {
         return projectRepository.findById(id);
     }
 
+    // Method for finding all Projects that belong to specific user.
     public ProjectListResponse findByUserId(String userId) {
         List<ProjectModel> projectList = projectRepository.findByUserId(userId);
         ProjectListResponse projectListResponse = new ProjectListResponse();
@@ -34,6 +39,7 @@ public class ProjectService {
         return projectListResponse;
     }
 
+    // Method for updating specific project.
     public ProjectModel updateProject(String id, ProjectModel updatedProject) {
         Optional<ProjectModel> existingProjectOptional = projectRepository.findById(id);
         if(existingProjectOptional.isPresent()) {

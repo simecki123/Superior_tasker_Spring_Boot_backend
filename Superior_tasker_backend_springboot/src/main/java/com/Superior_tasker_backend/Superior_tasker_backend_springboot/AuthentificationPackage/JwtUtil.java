@@ -10,17 +10,22 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+
+// Component to generate token and validate it upon every request
 @Component
 public class JwtUtil {
+    // How long will token last
     @Value("${jwt.expiration}")
     private long expiration;
 
     private final SecretKey key;
 
+    // Constructor that sets specific value to key
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
+    // Generate token
     public String generateToken(String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
@@ -33,6 +38,7 @@ public class JwtUtil {
                 .compact();
     }
 
+    // Validate token
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -42,6 +48,7 @@ public class JwtUtil {
         }
     }
 
+    // For every user token contains its email, so we can get it.
     public String getEmailFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)

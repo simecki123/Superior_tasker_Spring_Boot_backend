@@ -6,5 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface ProjectRepository extends MongoRepository<ProjectModel, String> {
+    // Spring automatically understands what we want to fetch, so we don't have to write logic for fetching.
     List<ProjectModel> findByUserId(String userId);
 }

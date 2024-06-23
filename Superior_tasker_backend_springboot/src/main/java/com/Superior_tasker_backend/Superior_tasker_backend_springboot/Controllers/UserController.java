@@ -34,7 +34,6 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     // Method for registering
-
     @PostMapping("/api/register")
     public ResponseEntity<RegistrationResponse> registerUser(@RequestBody UserModel user) {
         RegistrationResponse response = userService.registerUser(user);
@@ -44,6 +43,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    // Method for log in
     @PostMapping("/api/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
         // Find user by email
@@ -63,35 +63,25 @@ public class UserController {
 
     }
 
-
-
     // Method for deleting user
-
     @DeleteMapping("/user/delete/{id}")
     public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
     }
 
     // Get by id
-
     @GetMapping("/user/findById/{id}")
     public Optional<UserModel> getUserById(@PathVariable String id) {
         return userService.getUserByID(id);
     }
 
     // Get by email
-
     @GetMapping("/user/findByEmail/{email}")
     public UserModel getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
 
-
-
-
-
     // Method for update
-
     @PutMapping("/user/updateUser/{id}")
     public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserModel updatedUser) {
         UserModel updated = userService.updateUser(id, updatedUser);

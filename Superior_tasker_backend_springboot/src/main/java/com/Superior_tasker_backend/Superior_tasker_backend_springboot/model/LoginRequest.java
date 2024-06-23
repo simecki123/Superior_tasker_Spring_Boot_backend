@@ -1,5 +1,6 @@
 package com.Superior_tasker_backend.Superior_tasker_backend_springboot.model;
 
+// Special request I made strictly for login functionality. It contains email and password.
 public class LoginRequest {
     private String email;
     private String password;

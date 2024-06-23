@@ -3,6 +3,8 @@ package com.Superior_tasker_backend.Superior_tasker_backend_springboot.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+// Simple object that represents Project.
+// Collection says which part of database it belongs to.
 @Document(collection = "ProjectCollection")
 public class ProjectModel {
     @Id

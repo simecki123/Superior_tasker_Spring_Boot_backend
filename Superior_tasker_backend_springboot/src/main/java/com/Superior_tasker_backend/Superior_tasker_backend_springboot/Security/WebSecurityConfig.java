@@ -22,6 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+// Specific configuration class that handles security of this application
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -37,6 +39,9 @@ public class WebSecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
+    // Security filter chain implements defined cors configuration, permits access from anyone to routes login and register.
+    // For all other requests user must be authenticated.
+    // For filter it uses our defined component jwtAuthorizationFilter.
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -53,6 +58,10 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    // Cors configuration that tells our application that is alright if requests are being sent from url where our frontend is
+    // In this case we allow React that is on this route --> "http://localhost:5173"
+    // We also put list of methods that can be called like POST, PUT DELETE ...
+    // All headers are allowed and that helps us send token in headers.
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -65,6 +74,7 @@ public class WebSecurityConfig {
         return source;
     }
 
+    // Method for encoding password
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

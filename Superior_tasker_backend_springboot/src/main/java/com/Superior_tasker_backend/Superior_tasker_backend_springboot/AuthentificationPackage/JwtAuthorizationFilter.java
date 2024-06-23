@@ -14,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+// Authorization filter
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
@@ -22,6 +23,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    // Main method to authorize user. Get token, validate it and go on.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");

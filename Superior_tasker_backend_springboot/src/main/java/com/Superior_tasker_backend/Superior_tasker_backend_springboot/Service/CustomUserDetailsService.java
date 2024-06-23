@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+// Specific Service that is used in Authorization to filter user that is sending request to backend.
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
+    // Method that loads specific user by its email.
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserModel user = userRepository.findByEmail(email);
