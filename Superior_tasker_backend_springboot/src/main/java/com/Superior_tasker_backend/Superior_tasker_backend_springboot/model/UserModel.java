@@ -1,5 +1,6 @@
 package com.Superior_tasker_backend.Superior_tasker_backend_springboot.model;
 
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.enums.UserRoleEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,6 +17,7 @@ public class UserModel {
     private String password;
     private String description;
     private String image;
+    private UserRoleEnum role;
 
 
 
@@ -73,5 +75,13 @@ public class UserModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public UserRoleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(UserRoleEnum role) {
+        this.role = role;
     }
 }
