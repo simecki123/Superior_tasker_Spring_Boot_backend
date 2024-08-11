@@ -2,6 +2,7 @@ package com.Superior_tasker_backend.Superior_tasker_backend_springboot.Controlle
 
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.AuthentificationPackage.JwtUtil;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.Service.UserService;
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.enums.UserRoleEnum;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.LoginRequest;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.LoginResponse;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.RegistrationResponse;
@@ -35,13 +36,24 @@ public class UserController {
 
     // Method for registering
     @PostMapping("/api/register")
-    public ResponseEntity<RegistrationResponse> registerUser(@RequestBody UserModel user) {
-        RegistrationResponse response = userService.registerUser(user);
-        if (response.getUser() == null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    // Method for registering a new user
+    public RegistrationResponse registerUser(UserModel user) {
+        UserModel existingUser = getUserByEmail(user.getEmail());
+        if (existingUser != null) {
+            return new RegistrationResponse("User with this email already exists.", null);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        // Encrypt the user's password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Assign role
+        user.setRole(UserRoleEnum.USER);
+
+        UserModel registeredUser = userService.saveUser(user);
+
+        return new RegistrationResponse("User registered successfully.", registeredUser);
     }
+
 
     // Method for log in
     @PostMapping("/api/login")
@@ -55,7 +67,7 @@ public class UserController {
         }
 
         // Generate token
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
 
         // Return response with token and user details
         LoginResponse response = new LoginResponse("Login successful", user, token);

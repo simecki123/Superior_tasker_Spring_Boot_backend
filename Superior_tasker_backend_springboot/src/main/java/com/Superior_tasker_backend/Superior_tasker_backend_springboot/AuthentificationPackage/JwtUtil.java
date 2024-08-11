@@ -1,5 +1,7 @@
 package com.Superior_tasker_backend.Superior_tasker_backend_springboot.AuthentificationPackage;
 
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.enums.UserRoleEnum;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,12 +28,13 @@ public class JwtUtil {
     }
 
     // Generate token
-    public String generateToken(String email) {
+    public String generateToken(String email, UserRoleEnum role) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", role.name())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS512)
@@ -56,5 +59,15 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("role", String.class);
     }
 }

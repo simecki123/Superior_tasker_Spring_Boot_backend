@@ -1,5 +1,6 @@
 package com.Superior_tasker_backend.Superior_tasker_backend_springboot.Service;
 
+import com.Superior_tasker_backend.Superior_tasker_backend_springboot.enums.UserRoleEnum;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.LoginRequest;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.LoginResponse;
 import com.Superior_tasker_backend.Superior_tasker_backend_springboot.model.RegistrationResponse;
@@ -83,6 +84,18 @@ public class UserService {
         UserModel registeredUser = saveUser(user);
 
         return new RegistrationResponse("User registered successfully.", registeredUser);
+    }
+
+    // Method for changing the role of a user
+    public void changeUserRole(String id, UserRoleEnum newRole) {
+        Optional<UserModel> existingUserOptional = userRepository.findById(id);
+        if (existingUserOptional.isPresent()) {
+            UserModel existingUser = existingUserOptional.get();
+            existingUser.setRole(newRole);
+            userRepository.save(existingUser);
+        } else {
+            throw new IllegalArgumentException("User not found with ID: " + id);
+        }
     }
 
 
