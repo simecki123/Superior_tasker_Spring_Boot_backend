@@ -98,6 +98,9 @@ public class UserService {
         }
     }
 
+    public List<UserModel> getAllUsersExcept(String id) {
+        return userRepository.findAllByIdNot(id);
+    }
 
 
 }
